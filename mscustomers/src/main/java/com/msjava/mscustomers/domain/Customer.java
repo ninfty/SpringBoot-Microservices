@@ -2,11 +2,15 @@ package com.msjava.mscustomers.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Getter
+@Setter
 public class Customer {
 
     @Id
