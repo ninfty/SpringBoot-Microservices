@@ -1,4 +1,4 @@
-package com.msjava.msclientes;
+package com.msjava.mscustomers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class MsclientesApplication {
+public class MscustomersApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsclientesApplication.class, args);
+		SpringApplication.run(MscustomersApplication.class, args);
 	}
 
 }

@@ -1,10 +1,10 @@
-package com.msjava.msclientes;
+package com.msjava.mscustomers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsclientesApplicationTests {
+class MscustomersApplicationTests {
 
 	@Test
 	void contextLoads() {

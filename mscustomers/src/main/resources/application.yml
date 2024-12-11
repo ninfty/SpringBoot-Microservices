@@ -1,6 +1,6 @@
 spring:
   application:
-    name: msclientes
+    name: mscustomers
 
 server:
   port: 0
