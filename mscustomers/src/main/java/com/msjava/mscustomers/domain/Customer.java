@@ -9,8 +9,6 @@ import lombok.Setter;
 @Entity
 @Data
 @NoArgsConstructor
-@Getter
-@Setter
 public class Customer {
 
     @Id
