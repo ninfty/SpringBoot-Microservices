@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("creditcards")
+@RequestMapping("credit-cards")
 @RequiredArgsConstructor
 public class CreditCardsResource {
 
