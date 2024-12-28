@@ -1,10 +1,9 @@
 package com.msjava.mscreditassessment.application;
 
 import com.msjava.mscreditassessment.application.ex.CustomerDataNotFoundException;
+import com.msjava.mscreditassessment.application.ex.RequestCreditCardErrorException;
 import com.msjava.mscreditassessment.application.ex.MicroservicesComunicationErrorException;
-import com.msjava.mscreditassessment.domain.model.AssessmentData;
-import com.msjava.mscreditassessment.domain.model.CustomerAssessmentResponse;
-import com.msjava.mscreditassessment.domain.model.CustomerStatus;
+import com.msjava.mscreditassessment.domain.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,9 @@ public class CreditAssessmentController {
         } catch (CustomerDataNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (MicroservicesComunicationErrorException e) {
-            return ResponseEntity.status(HttpStatus.resolve(e.getStatus())).body(e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.resolve(e.getStatus()))
+                    .body(e.getMessage());
         }
     }
 
@@ -46,6 +47,17 @@ public class CreditAssessmentController {
             return ResponseEntity.notFound().build();
         } catch (MicroservicesComunicationErrorException e) {
             return ResponseEntity.status(HttpStatus.resolve(e.getStatus())).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("request-credit-card")
+    public ResponseEntity requestCreditCard(@RequestBody RequestCreditCardData data) {
+        try {
+            RequestCreditCardProtocol protocol = creditAssessmentService.requestCreditCard(data);
+
+            return ResponseEntity.ok(protocol);
+        } catch (RequestCreditCardErrorException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }

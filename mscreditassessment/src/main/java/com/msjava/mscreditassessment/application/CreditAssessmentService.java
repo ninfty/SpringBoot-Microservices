@@ -1,10 +1,12 @@
 package com.msjava.mscreditassessment.application;
 
 import com.msjava.mscreditassessment.application.ex.CustomerDataNotFoundException;
+import com.msjava.mscreditassessment.application.ex.RequestCreditCardErrorException;
 import com.msjava.mscreditassessment.application.ex.MicroservicesComunicationErrorException;
 import com.msjava.mscreditassessment.domain.model.*;
 import com.msjava.mscreditassessment.infra.clients.CreditCardsResourceClient;
 import com.msjava.mscreditassessment.infra.clients.CustomerResourceClient;
+import com.msjava.mscreditassessment.infra.mqueue.RequestIssueCreditCardPublisher;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +24,7 @@ public class CreditAssessmentService {
 
     private final CustomerResourceClient customersClient;
     private final CreditCardsResourceClient creditCardsClient;
+    private final RequestIssueCreditCardPublisher issueCreditCardPublisher;
 
     public CustomerStatus getCustomerStatus(String document) throws CustomerDataNotFoundException, MicroservicesComunicationErrorException {
         try {
@@ -78,6 +82,18 @@ public class CreditAssessmentService {
             }
 
             throw new MicroservicesComunicationErrorException(e.getMessage(), status);
+        }
+    }
+
+    public RequestCreditCardProtocol requestCreditCard(RequestCreditCardData data) throws RequestCreditCardErrorException {
+        try {
+            issueCreditCardPublisher.requestCreditCard(data);
+
+            var protocol = UUID.randomUUID().toString();
+
+            return new RequestCreditCardProtocol(protocol);
+        } catch (Exception e) {
+            throw new RequestCreditCardErrorException(e.getMessage());
         }
     }
 }
