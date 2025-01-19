@@ -1,4 +1,4 @@
-## Docker
+# Docker
 
 ```
 # Keycloak
@@ -29,4 +29,70 @@ docker run --name msjava-creditassessment -P --network msjava-network -e RABBIT
 # Gateway
 docker build --tag msjava-gateway .
 docker run --name msjava-gateway -p 8080:8080 -e EUREKA_SERVER=msjava-eureka -e KEYCLOAK_SERVER=msjava-keycloak -e KEYCLOAK_PORT=8080 --network msjava-network -d msjava-gateway
+```
+
+# Endpoints
+
+## Customers
+
+```GET /customers```
+
+Microservice status
+
+
+```POST /customers```
+```
+{
+	"name": "foo",
+	"document": "01234567890",
+	"age": 25
+}
+```
+
+```GET /customers?document=01234567890```
+
+## Credit Cards
+
+```GET /credit-cards```
+
+Microservice status
+
+```POST /credit-cards```
+```
+{
+	"name": "visa cc",
+	"brand": "VISA",
+	"income": 5000,
+	"limit": 8000
+}
+```
+
+```GET /credit-cards?income=5000```
+
+```GET /credit-cards?document=01234567890```
+
+## Credit Assessment
+
+```GET /credit-assessments```
+
+Microservice status
+
+```GET /credit-assessments/customer-status?document=01234567890```
+
+```POST /credit-assessments```
+```
+{
+	"document": "01234567890",
+	"income": 5000
+}
+```
+
+```POST /credit-assessments/request-credit-card```
+```
+{
+	"document": "01234567890",
+	"idCreditCard": 1,
+	"address": "xyz",
+	"availableLimit": 20000
+}
 ```
